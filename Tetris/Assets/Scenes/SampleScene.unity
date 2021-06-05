@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 28937460}
   - component: {fileID: 28937461}
+  - component: {fileID: 28937462}
   m_Layer: 0
   m_Name: T Tetromino
   m_TagString: Untagged
@@ -170,16 +171,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732a7998f2d127c4e8fcf6016a111b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalMovementSpeed: 1
-  rotationPoint: {x: 0, y: 0, z: 0}
+  gameSettingsLeft: 0
   squares:
   - {fileID: 1241033210}
   - {fileID: 424065997}
   - {fileID: 150313868}
   - {fileID: 772807101}
-  gameSettingsLeft: 0
-  gridWidth: 10
-  gridHeight: 21
+  horizontalMovementSpeed: 1
+  rotationPoint: {x: 0, y: 0, z: 0}
+--- !u!114 &28937462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28937459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2410b7a0e4134091b4d0c9114235f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stationaryTimeTreshold: 1
 --- !u!1 &150313867
 GameObject:
   m_ObjectHideFlags: 0
