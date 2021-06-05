@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,21 +16,18 @@ public enum TetrominoState
 public class Tetromino : MonoBehaviour
 {
     public static float fallTime = 1.0f;
-    public float horizontalMovementSpeed = 10.0f;
+    public float horizontalMovementSpeed = 1.0f;
     public Vector3 rotationPoint;
-    public Text info;
     public Transform[] squares;
 
     public bool gameSettingsLeft = false;
 
     public int gridWidth = 10;
-    public int gridHeight = 20;
+    public int gridHeight = 21;
 
     private TetrominoState state = TetrominoState.Idle;
     private float previousFallTime;
     private float touchStartTime;
-    private Vector2 touchInitialPosition;
-    private Vector2 touchPreviousPosition;
 
     private void Update()
     {
@@ -39,9 +39,6 @@ public class Tetromino : MonoBehaviour
             {
                 state = TetrominoState.Controlled;
                 touchStartTime = Time.time;
-                info.text = "Touch started";
-                touchInitialPosition = touch.position;
-                touchPreviousPosition = touch.position;
             }
             else if (touch.phase == TouchPhase.Stationary)
             {
@@ -50,35 +47,30 @@ public class Tetromino : MonoBehaviour
                 if (Time.time - touchStartTime > fallTime)
                 {
                     state = TetrominoState.Moving;
-                    info.text = "Holding";
                 }
             }
             else if (touch.phase == TouchPhase.Moved)
             {
                 state = TetrominoState.Moving;
-                // Move tetromino in the right direction
-                info.text = "Moving";
-                Vector2 deltaPosition = touch.position - touchInitialPosition;
                 // Move tetromino left/right
-                if (Mathf.Abs(deltaPosition.x) > Mathf.Abs(deltaPosition.y))
+                if (Mathf.Abs(touch.deltaPosition.x) > Mathf.Abs(touch.deltaPosition.y))
                 {
-                    info.text = "Horizontal move";
-                    float horizontalMovement = (touch.position - touchPreviousPosition).x / Screen.width;
-                    if (Mathf.Abs(horizontalMovement) > horizontalMovementSpeed * Time.deltaTime)
-                    {
-                        while (Mathf.Abs(horizontalMovement) > horizontalMovementSpeed * Time.deltaTime)
-                        {
-                            Move(horizontalMovement > 0.0f ? Vector3.right : Vector3.left);
-                            horizontalMovement += (horizontalMovement > 0.0f ? -horizontalMovementSpeed : horizontalMovementSpeed) * Time.deltaTime;
-                        }
-                        touchPreviousPosition = touch.position;
-                    }
+                    state = TetrominoState.HorizontalMove;
+                    float horizontalMovement = Mathf.RoundToInt(touch.deltaPosition.x * horizontalMovementSpeed * Time.deltaTime);
+                    Move(horizontalMovement * Vector3.right);
                 } 
                 // Move tetromino up/down
-                else if (Mathf.Abs(deltaPosition.x) < Mathf.Abs(deltaPosition.y))
+                else if (Mathf.Abs(touch.deltaPosition.x) < Mathf.Abs(touch.deltaPosition.y))
                 {
-                    info.text = "Vertical move";
-
+                    state = TetrominoState.VerticalMove;
+                    if (touch.deltaPosition.y < 0.0f)
+                    {
+                        fallTime -= 0.01f * Mathf.Abs(touch.deltaPosition.y);
+                    } else
+                    {
+                        fallTime += 0.01f * Mathf.Abs(touch.deltaPosition.y);
+                        fallTime = Mathf.Clamp01(fallTime);
+                    }
                 }
             } 
             else if (touch.phase == TouchPhase.Ended)
@@ -86,21 +78,40 @@ public class Tetromino : MonoBehaviour
                 if (state == TetrominoState.Controlled)
                 {
                     // Rotate tetromino
-                    info.text = "Rotating";
                     transform.RotateAround(transform.TransformPoint(rotationPoint), Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
                 }
+                // Set tetromino to IDLE state
+                state = TetrominoState.Idle;
             }
         }
 
-            // Apply "gravity"
+        // Apply "gravity"
         if (Time.time - previousFallTime > fallTime)
         {
-            Move(Vector3.down);
-            previousFallTime = Time.time;
+            // Tetromino won't fall down while it's moving left/right
+            if (state != TetrominoState.HorizontalMove && state != TetrominoState.VerticalMove)
+            {
+                Move(Vector3.down);
+                previousFallTime = Time.time;
+
+                // Disable this tetromino if it's not active anymore
+                if (!IsActive())
+                {
+                    enabled = false;
+                    Debug.Log("Disabled");
+                }
+            }
         }
     }
 
     private void Move(Vector3 translation)
+    {
+        // If every square can be moved to this location then simply move the whole tetromino
+        if (CheckMove(translation))
+            transform.position += translation;
+    }
+
+    private bool CheckMove(Vector3 translation)
     {
         // Check if the translation is valid by checking each square (block) of this tetromino 
         foreach (Transform square in squares)
@@ -109,10 +120,19 @@ public class Tetromino : MonoBehaviour
             int y = Mathf.RoundToInt((square.transform.position + translation).y);
             if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
             {
-                return;
+                return false;
             }
         }
-        // If every square can be moved to this location then simply move the whole tetromino
-        transform.position += translation;
+        return true;
+    }
+
+    /// <summary>
+    /// Tetromino is no longer active when it reaches bottom of the grid or when it interacts with another tetromino
+    /// </summary>
+    /// <returns></returns>
+    private bool IsActive()
+    {
+        // Check if tetromino can fall down for one step
+        return CheckMove(Vector3.down);
     }
 }
