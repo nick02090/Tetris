@@ -10,6 +10,7 @@ namespace Tetris.Gameplay
 
         private void Start()
         {
+            tetrisGrid.tetrominosParent = transform;
             SpawnTetromino();
         }
 

@@ -89,10 +89,10 @@ namespace Tetris.Gameplay
                     // Give player one more fallTime chance before total disabling
                     if (Time.time - previousFallTime > fallTime * 2.0f)
                     {
+                        tetrisGrid.AddToGrid(this);
                         enabled = false;
                         Reset();
                         tetrominoSpawner.SpawnTetromino();
-                        tetrisGrid.AddToGrid(this);
                     }
                     else
                     {
