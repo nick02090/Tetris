@@ -7,7 +7,6 @@ namespace Tetris.Gameplay
     {
         // TODO: Move this to game settings/manager
         public static float fallTime = 1.0f;
-        public bool gameSettingsLeft = false;
 
         // Speed at which tetromino is dragged on horizontal axis
         public static readonly float horizontalMovementSpeed = 1.0f;
@@ -69,10 +68,10 @@ namespace Tetris.Gameplay
             control.rotateDelegate -= Rotate;
         }
 
-        public void Rotate()
+        public void Rotate(bool rotateLeft)
         {
             // Rotate tetromino
-            transform.Rotate(Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
+            transform.Rotate(Vector3.forward, rotateLeft ? 90.0f : -90.0f);
             // Try to fix rotation if it's illegal
             if (!CheckMove(Vector3.zero))
             {
@@ -89,7 +88,7 @@ namespace Tetris.Gameplay
                     return;
                 }
                 // Undo rotation if nothing works
-                transform.Rotate(Vector3.forward, gameSettingsLeft ? -90.0f : 90.0f);
+                transform.Rotate(Vector3.forward, rotateLeft ? -90.0f : 90.0f);
             }
         }
 

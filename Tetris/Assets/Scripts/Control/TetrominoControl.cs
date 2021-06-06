@@ -7,7 +7,7 @@ namespace Tetris.Control
         public delegate void MoveHorizontal(float movement);
         public MoveHorizontal moveDelegate;
 
-        public delegate void Rotate();
+        public delegate void Rotate(bool leftSide);
         public Rotate rotateDelegate;
 
         public delegate void ChangeFalltime(float multiplier);
@@ -23,9 +23,14 @@ namespace Tetris.Control
             moveDelegate(1.0f);
         }
 
-        public void RotateTetromino()
+        public void RotateTetrominoLeft()
         {
-            rotateDelegate();
+            rotateDelegate(true);
+        }
+
+        public void RotateTetrominoRight()
+        {
+            rotateDelegate(false);
         }
 
         public void IncreaseFallTime()
