@@ -10,16 +10,15 @@ namespace Tetris.Gameplay
         public static float fallTime = 1.0f;
         public bool gameSettingsLeft = false;
 
-        // TODO: Move this to tetris grid
-        public const int gridWidth = 10;
-        public const int gridHeight = 21;
+        // Speed at which tetromino is dragged on horizontal axis
+        public static readonly float horizontalMovementSpeed = 1.0f;
+        // Spawner of the tetrominos
+        public TetrominoSpawner tetrominoSpawner;
+        // Grid where all the tetrominos are placed
+        public TetrisGrid tetrisGrid;
 
         // Squares that this tetromino consists of
         public Transform[] squares;
-        // Speed at which tetromino is dragged on horizontal axis
-        public float horizontalMovementSpeed;
-        // Local point around which tetromino is rotated
-        public Vector3 rotationPoint;
 
         // Touch control system that manouvers tetromino
         private TouchControl touchControl;
@@ -61,7 +60,20 @@ namespace Tetris.Gameplay
                 // Rotate tetromino if it was a tap (short stationary touch) 
                 else if (touchControl.Phase == TouchPhase.Ended && !touchControl.IsLongStationary)
                 {
-                    transform.RotateAround(transform.TransformPoint(rotationPoint), Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
+                    transform.Rotate(Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
+                    // Try to fix rotation if it's illegal
+                    if (!CheckMove(Vector3.zero))
+                    {
+                        // Try fix by moving left
+                        if (CheckMove(Vector3.left))
+                            Move(Vector3.left);
+                        // Try fix by moving right
+                        else if (CheckMove(Vector3.right))
+                            Move(Vector3.right);
+                        // Undo rotation if it is illegal move
+                        else
+                            transform.Rotate(Vector3.forward, gameSettingsLeft ? -90.0f : 90.0f);
+                    }
                 }
             }
 
@@ -71,15 +83,25 @@ namespace Tetris.Gameplay
                 // Move tetromino one step down
                 Move(Vector3.down);
 
-                // Update previous fall time
-                previousFallTime = Time.time;
-
                 // Disable this tetromino if it's not active anymore
                 if (!IsActive())
                 {
-                    enabled = false;
-                    Reset();
+                    // Give player one more fallTime chance before total disabling
+                    if (Time.time - previousFallTime > fallTime * 2.0f)
+                    {
+                        enabled = false;
+                        Reset();
+                        tetrominoSpawner.SpawnTetromino();
+                        tetrisGrid.AddToGrid(this);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
+
+                // Update previous fall time
+                previousFallTime = Time.time;
             }
         }
 
@@ -88,6 +110,7 @@ namespace Tetris.Gameplay
         /// </summary>
         private void Reset()
         {
+            previousFallTime = Time.time;
             fallTime = 1.0f;
         }
 
@@ -114,10 +137,14 @@ namespace Tetris.Gameplay
             {
                 int x = Mathf.RoundToInt((square.transform.position + translation).x);
                 int y = Mathf.RoundToInt((square.transform.position + translation).y);
-                if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
+                // Check if tetromino is inside the grid
+                if (x < 0 || x >= TetrisGrid.gridWidth || y < 0 || y >= TetrisGrid.gridHeight)
                 {
                     return false;
                 }
+                // Check if tetromino collides with another tetromino in the grid
+                if (tetrisGrid.BlockTaken(x, y))
+                    return false;
             }
             return true;
         }

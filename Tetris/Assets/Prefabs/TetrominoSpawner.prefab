@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3614115942311491937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3614115942311491936}
+  - component: {fileID: 3614115942311491935}
+  m_Layer: 0
+  m_Name: TetrominoSpawner
+  m_TagString: TetrominoSpawner
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3614115942311491936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3614115942311491937}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3614115942311491935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3614115942311491937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ae2edde172ad34bb776023be876eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tetrisGrid: {fileID: 0}
+  tetrominos:
+  - {fileID: 8719108502638278228, guid: ccc956789224e314bb58f84013e7920f, type: 3}
+  - {fileID: 8730935925477101267, guid: 3504dd033a6d4ac46b6e692fda687409, type: 3}
+  - {fileID: 147903843891057986, guid: b63d7369c84a7bb4b8d8d2d4bfa4cd4e, type: 3}
+  - {fileID: 8593644912946343543, guid: 39144c71e05879e44ac24109ee7d2ff6, type: 3}
+  - {fileID: 6299907340251802774, guid: dde04086c28d29c408e737585eefff7c, type: 3}
+  - {fileID: 7780697092312860189, guid: a916fe22bd5769e478ec7bc9011d41ed, type: 3}
+  - {fileID: 3910705951585757184, guid: c660c288fa601be44a2949231d1f2d83, type: 3}
