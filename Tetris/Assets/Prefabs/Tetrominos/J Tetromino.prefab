@@ -173,7 +173,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8730935925477101266}
-  - component: {fileID: 8730935925477101264}
   - component: {fileID: 8730935925477101267}
   m_Layer: 0
   m_Name: J Tetromino
@@ -200,19 +199,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8730935925477101264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8730935925477101269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27a2410b7a0e4134091b4d0c9114235f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stationaryTimeTreshold: 1
 --- !u!114 &8730935925477101267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +214,7 @@ MonoBehaviour:
   gameSettingsLeft: 0
   tetrominoSpawner: {fileID: 0}
   tetrisGrid: {fileID: 0}
+  control: {fileID: 0}
   squares:
   - {fileID: 8730935926297059545}
   - {fileID: 8730935925733046669}

@@ -3,7 +3,6 @@ using Tetris.Control;
 
 namespace Tetris.Gameplay
 {
-    [RequireComponent(typeof(TouchControl))]
     public class Tetromino : MonoBehaviour
     {
         // TODO: Move this to game settings/manager
@@ -16,67 +15,24 @@ namespace Tetris.Gameplay
         public TetrominoSpawner tetrominoSpawner;
         // Grid where all the tetrominos are placed
         public TetrisGrid tetrisGrid;
+        // Control system that manouvers tetromino
+        public TetrominoControl control;
 
         // Squares that this tetromino consists of
         public Transform[] squares;
 
-        // Touch control system that manouvers tetromino
-        private TouchControl touchControl;
         // Last time at which the tetromino has fell down one step
         private float previousFallTime;
 
         private void Start()
         {
-            touchControl = GetComponent<TouchControl>();
+            control.moveDelegate += MoveHorizontal;
+            control.falltimeDelegate += ChangeFalltime;
+            control.rotateDelegate += Rotate;
         }
 
         private void Update()
         {
-            if (touchControl.HasActiveTouch)
-            {
-                // Move tetromino in the correct direction
-                if (touchControl.Phase == TouchPhase.Moved)
-                {
-                    // Move tetromino left/right
-                    if (Mathf.Abs(touchControl.DeltaPosition.x) > Mathf.Abs(touchControl.DeltaPosition.y))
-                    {
-                        float horizontalMovement = Mathf.RoundToInt(touchControl.DeltaPosition.x * horizontalMovementSpeed * Time.deltaTime);
-                        Move(horizontalMovement * Vector3.right);
-                    }
-                    // Slow/Accelerate tetromino down movement
-                    else if (Mathf.Abs(touchControl.DeltaPosition.x) < Mathf.Abs(touchControl.DeltaPosition.y))
-                    {
-                        if (touchControl.DeltaPosition.y < 0.0f)
-                        {
-                            fallTime -= 0.01f * Mathf.Abs(touchControl.DeltaPosition.y);
-                        }
-                        else
-                        {
-                            fallTime += 0.01f * Mathf.Abs(touchControl.DeltaPosition.y);
-                            fallTime = Mathf.Clamp01(fallTime);
-                        }
-                    }
-                }
-                // Rotate tetromino if it was a tap (short stationary touch) 
-                else if (touchControl.Phase == TouchPhase.Ended && !touchControl.IsLongStationary)
-                {
-                    transform.Rotate(Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
-                    // Try to fix rotation if it's illegal
-                    if (!CheckMove(Vector3.zero))
-                    {
-                        // Try fix by moving left
-                        if (CheckMove(Vector3.left))
-                            Move(Vector3.left);
-                        // Try fix by moving right
-                        else if (CheckMove(Vector3.right))
-                            Move(Vector3.right);
-                        // Undo rotation if it is illegal move
-                        else
-                            transform.Rotate(Vector3.forward, gameSettingsLeft ? -90.0f : 90.0f);
-                    }
-                }
-            }
-
             // Apply "gravity"
             if (Time.time - previousFallTime > fallTime)
             {
@@ -90,7 +46,6 @@ namespace Tetris.Gameplay
                     if (Time.time - previousFallTime > fallTime * 2.0f)
                     {
                         tetrisGrid.AddToGrid(this);
-                        enabled = false;
                         Reset();
                         tetrominoSpawner.SpawnTetromino();
                     }
@@ -105,13 +60,47 @@ namespace Tetris.Gameplay
             }
         }
 
-        /// <summary>
-        /// This function is called upon current tetromino becoming inactive
-        /// </summary>
         private void Reset()
         {
-            previousFallTime = Time.time;
             fallTime = 1.0f;
+            enabled = false;
+            control.moveDelegate -= MoveHorizontal;
+            control.falltimeDelegate -= ChangeFalltime;
+            control.rotateDelegate -= Rotate;
+        }
+
+        public void Rotate()
+        {
+            // Rotate tetromino
+            transform.Rotate(Vector3.forward, gameSettingsLeft ? 90.0f : -90.0f);
+            // Try to fix rotation if it's illegal
+            if (!CheckMove(Vector3.zero))
+            {
+                // Try fix by moving left
+                if (CheckMove(Vector3.left))
+                {
+                    Move(Vector3.left);
+                    return;
+                }
+                // Try fix by moving right
+                if (CheckMove(Vector3.right))
+                {
+                    Move(Vector3.right);
+                    return;
+                }
+                // Undo rotation if nothing works
+                transform.Rotate(Vector3.forward, gameSettingsLeft ? -90.0f : 90.0f);
+            }
+        }
+
+        public void MoveHorizontal(float move)
+        {
+            Move(move * Vector3.right);
+        }
+
+        public void ChangeFalltime(float multiplier)
+        {
+            fallTime = multiplier * fallTime;
         }
 
         /// <summary>
