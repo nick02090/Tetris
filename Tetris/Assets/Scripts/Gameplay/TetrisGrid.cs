@@ -9,6 +9,9 @@ namespace Tetris.Gameplay
         public delegate void OnEndGame();
         public OnEndGame endGameDelegate;
 
+        public delegate void OnRowsCleared(int clearedRows);
+        public OnRowsCleared rowsClearedDelegate;
+
         public const int gridWidth = 10;
         public const int gridHeight = 21;
 
@@ -74,6 +77,7 @@ namespace Tetris.Gameplay
             {
                 // Clear the rows
                 ClearRows(clearRows);
+                rowsClearedDelegate(clearRows.Where(shouldClear => shouldClear).Count());
             }
             // Check if the game has ended
             if (CheckEndGame())
