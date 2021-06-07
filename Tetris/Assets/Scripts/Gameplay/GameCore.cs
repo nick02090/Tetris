@@ -7,9 +7,12 @@ namespace Tetris.Gameplay
     {
         private bool isLeftHanded = false;
 
+        // Control buttons (disabled upon pause)
         public RectTransform controlButtonsParent;
+        // Overlay panel for paused game
         public RectTransform pausePanel;
 
+        // Buttons that are hidden/shown based on isLeftHanded property
         public RectTransform leftPauseButton;
         public RectTransform rightPauseButton;
         public RectTransform leftRotateButton;
@@ -20,6 +23,9 @@ namespace Tetris.Gameplay
             SetButtonsAccordingToHand();
         }
 
+        /// <summary>
+        /// Hides/Shows GUI elements based on isLeftHanded property
+        /// </summary>
         private void SetButtonsAccordingToHand()
         {
             leftPauseButton.gameObject.SetActive(!isLeftHanded);
@@ -28,12 +34,14 @@ namespace Tetris.Gameplay
             rightRotateButton.gameObject.SetActive(!isLeftHanded);
         }
 
+        // Called from Unity Editor (GUI)
         public void ChangeHandSide()
         {
             isLeftHanded = !isLeftHanded;
             SetButtonsAccordingToHand();
         }
 
+        // Called from Unity Editor (GUI)
         public void PauseGame()
         {
             // Disable control buttons
@@ -47,6 +55,7 @@ namespace Tetris.Gameplay
             Time.timeScale = 0f;
         }
 
+        // Called from Unity Editor (GUI)
         public void ResumeGame()
         {
             // Disable control buttons
@@ -54,17 +63,19 @@ namespace Tetris.Gameplay
             {
                 button.GetComponent<Button>().enabled = true;
             }
-            // Hid pause panel
+            // Hide pause panel
             pausePanel.gameObject.SetActive(false);
             // Resume time
             Time.timeScale = 1f;
         }
 
+        // Called from Unity Editor (GUI)
         public void RestartGame()
         {
 
         }
 
+        // Called from Unity Editor (GUI)
         public void QuitGame()
         {
 

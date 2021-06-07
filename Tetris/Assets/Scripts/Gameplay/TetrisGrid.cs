@@ -11,8 +11,10 @@ namespace Tetris.Gameplay
 
         public Transform tetrominosParent;
 
-        // If grid[x][y] then it is filled, otherwise it is empty
-        private bool[, ] grid;
+        // Data that represents where squares are currently placed on the grid
+        // NOTE: Tetromino that is currently falling down is not shown in the grid
+        // NOTE: Grids data is inversed from the actual visual grid representation
+        private bool[,] grid;
 
         private void Start()
         {
@@ -32,23 +34,33 @@ namespace Tetris.Gameplay
             // Iterate over every tetromino
             foreach (Transform child in tetrominosParent)
             {
-                Tetromino tetromino = child.GetComponent<Tetromino>();
                 // Destroy tetromino if all of his squares were destroyed
-                if (tetromino.squares.All(square => square == null))
+                if (child.GetComponent<Tetromino>().squares.All(square => square == null))
                 {
                     Destroy(child.gameObject);
                 }
             }
         }
 
-        public bool BlockTaken(int row, int col)
+        /// <summary>
+        /// Get grid value for given row and column.
+        /// NOTE: Grids data is inversed from the actual visual grid representation.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool BlockTaken(int row, int column)
         {
-            return grid[row, col];
+            return grid[column, row];
         }
 
+        /// <summary>
+        /// Tetromino is added to grid once he has finished moving.
+        /// </summary>
+        /// <param name="tetromino"></param>
         public void AddToGrid(Tetromino tetromino)
         {
-            // Set initial grid values
+            // Set grid values to true where tetromino has landed
             foreach (Transform square in tetromino.squares)
             {
                 grid[Mathf.RoundToInt(square.transform.position.x), Mathf.RoundToInt(square.transform.position.y)] = true;
@@ -62,69 +74,71 @@ namespace Tetris.Gameplay
             }
         }
 
+        /// <summary>
+        /// Checks if there are filled rows.
+        /// </summary>
+        /// <returns></returns>
         private bool[] CheckClearRows()
         {
             bool[] clearRows = new bool[gridHeight];
 
             // Check which rows should be cleared (from top to bottom)
-            for (int col = gridHeight - 1; col >= 0; --col)
+            for (int row = gridHeight - 1; row >= 0; --row)
             {
-                int row;
-                for (row = 0; row < gridWidth; ++row)
+                int column;
+                for (column = 0; column < gridWidth; ++column)
                 {
-                    if (!grid[row, col])
+                    if (!grid[column, row])
                         break;
                 }
 
                 // If iteration through this whole row went without a break, then this row should be cleared
-                if (row == gridWidth)
-                    clearRows[col] = true;
+                if (column == gridWidth)
+                    clearRows[row] = true;
                 else
-                    clearRows[col] = false;
+                    clearRows[row] = false;
             }
 
             return clearRows;
         }
 
+        /// <summary>
+        /// Remove rows that are filled and move those that are above cleared ones.
+        /// </summary>
+        /// <param name="clearRows"></param>
         private void ClearRows(bool[] clearRows)
         {
             // Clear every row that needs to be cleared
-            for (int col = gridHeight - 1; col >= 0; --col)
+            for (int row = gridHeight - 1; row >= 0; --row)
             {
-                if (clearRows[col])
+                if (clearRows[row])
                 {
                     // Remove squares from this row
-                    foreach (Transform square in GetSquaresForRow(col))
+                    foreach (Transform square in GetSquaresForRow(row))
                     {
                         DestroyImmediate(square.gameObject);
                     }
-                    // Update the grid for this row
-                    for (int row = 0; row < gridWidth; ++row)
-                        grid[row, col] = false;
+                    // Update the grid for this row (whole row should be false due to the fact that it's cleared)
+                    for (int column = 0; column < gridWidth; ++column)
+                        grid[column, row] = false;
                     // Make everything above this row fall down
-                    RowsFall(col + 1);
+                    RowsFall(row + 1);
                 }
             }
         }
 
-        private IEnumerable<Transform> GetSquaresForRow(int row)
-        {
-            List<Transform> squares = new List<Transform>();
-            foreach (Transform tetromino in tetrominosParent)
-            {
-                squares.AddRange(tetromino.GetComponent<Tetromino>().squares.Where(square => square != null && Mathf.RoundToInt(square.position.y) == row));
-            }
-            return squares;
-        }
-
+        /// <summary>
+        /// Updates the grid in a way that every row from startingRow till the last one is moved by one position down.
+        /// </summary>
+        /// <param name="startingRow"></param>
         private void RowsFall(int startingRow)
         {
-            for (int col = startingRow; col < gridHeight; ++col)
+            for (int row = startingRow; row < gridHeight; ++row)
             {
-                IEnumerable<Transform> rowSquares = GetSquaresForRow(col);
+                IEnumerable<Transform> rowSquares = GetSquaresForRow(row);
                 foreach (Transform square in rowSquares)
                 {
-                    // Update grid values
+                    // Update grid values (grid values are updated only for positions where squares are in this row)
                     int x = Mathf.RoundToInt(square.position.x);
                     int y = Mathf.RoundToInt(square.position.y);
                     grid[x, y - 1] = true;
@@ -133,6 +147,21 @@ namespace Tetris.Gameplay
                     square.position += Vector3.down;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets all of the square that are in this row.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        private IEnumerable<Transform> GetSquaresForRow(int row)
+        {
+            List<Transform> squares = new List<Transform>();
+            foreach (Transform tetromino in tetrominosParent)
+            {
+                squares.AddRange(tetromino.GetComponent<Tetromino>().squares.Where(square => square != null && Mathf.RoundToInt(square.position.y) == row));
+            }
+            return squares;
         }
     }
 }

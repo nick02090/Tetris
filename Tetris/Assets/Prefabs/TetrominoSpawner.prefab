@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ae2edde172ad34bb776023be876eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tetrominoControl: {fileID: 0}
   tetrisGrid: {fileID: 0}
   tetrominos:
   - {fileID: 8719108502638278228, guid: ccc956789224e314bb58f84013e7920f, type: 3}
@@ -52,3 +53,7 @@ MonoBehaviour:
   - {fileID: 6299907340251802774, guid: dde04086c28d29c408e737585eefff7c, type: 3}
   - {fileID: 7780697092312860189, guid: a916fe22bd5769e478ec7bc9011d41ed, type: 3}
   - {fileID: 3910705951585757184, guid: c660c288fa601be44a2949231d1f2d83, type: 3}
+  nextTetrominoImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

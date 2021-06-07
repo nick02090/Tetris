@@ -337,7 +337,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379384081}
+      - m_Target: {fileID: 1585111975}
         m_TargetAssemblyTypeName: Tetris.Control.TetrominoControl, Assembly-CSharp
         m_MethodName: MoveTetrominoRight
         m_Mode: 1
@@ -451,7 +451,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &140752293
 GameObject:
@@ -535,7 +535,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379384081}
+      - m_Target: {fileID: 1585111975}
         m_TargetAssemblyTypeName: Tetris.Control.TetrominoControl, Assembly-CSharp
         m_MethodName: RotateTetrominoLeft
         m_Mode: 1
@@ -1829,19 +1829,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1379384081 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4132388061307265502, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-  m_PrefabInstance: {fileID: 4132388062686567119}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff755d47c7f5044eba32cd0a0eb0bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1404867566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192,6 +2181,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518894467}
   m_CullTransparentMesh: 1
+--- !u!1 &1585111973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1585111974}
+  - component: {fileID: 1585111975}
+  m_Layer: 0
+  m_Name: TetrominoControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1585111974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585111973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1585111975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585111973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff755d47c7f5044eba32cd0a0eb0bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1599823879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,7 +2306,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379384081}
+      - m_Target: {fileID: 1585111975}
         m_TargetAssemblyTypeName: Tetris.Control.TetrominoControl, Assembly-CSharp
         m_MethodName: MoveTetrominoLeft
         m_Mode: 1
@@ -2561,9 +2593,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379384081}
+      - m_Target: {fileID: 1585111975}
         m_TargetAssemblyTypeName: Tetris.Control.TetrominoControl, Assembly-CSharp
-        m_MethodName: MaximizeFallTime
+        m_MethodName: MinimizeFallTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2611,6 +2643,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712987132}
   m_CullTransparentMesh: 1
+--- !u!1 &1741566806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741566807}
+  m_Layer: 0
+  m_Name: Tetrominos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1741566807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741566806}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1907073582
 GameObject:
   m_ObjectHideFlags: 0
@@ -2693,7 +2755,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1379384081}
+      - m_Target: {fileID: 1585111975}
         m_TargetAssemblyTypeName: Tetris.Control.TetrominoControl, Assembly-CSharp
         m_MethodName: RotateTetrominoRight
         m_Mode: 1
@@ -2950,7 +3012,7 @@ RectTransform:
   - {fileID: 1484340741}
   - {fileID: 1921973559}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3152,9 +3214,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 797496933183472801, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
+      propertyPath: tetrominosParent
+      value: 
+      objectReference: {fileID: 1741566807}
     - target: {fileID: 797496933183472802, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 797496933183472802, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3216,15 +3282,7 @@ PrefabInstance:
     - target: {fileID: 3614115942311491935, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
       propertyPath: tetrominoControl
       value: 
-      objectReference: {fileID: 1379384081}
-    - target: {fileID: 3614115942311491935, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
-      propertyPath: nextTetrominoImage
-      value: 
-      objectReference: {fileID: 1931030883}
-    - target: {fileID: 3614115942311491935, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
-      propertyPath: nextTetrominoImages.Array.size
-      value: 3
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1585111975}
     - target: {fileID: 3614115942311491935, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
       propertyPath: nextTetrominoImages.Array.data[0]
       value: 
@@ -3239,7 +3297,7 @@ PrefabInstance:
       objectReference: {fileID: 1299921374}
     - target: {fileID: 3614115942311491936, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3614115942311491936, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3287,60 +3345,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
---- !u!1001 &4132388062686567119
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4132388061307265472, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_Name
-      value: TetrominoControl
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4132388061307265503, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1b48655b0e0ff6a47a28ec77b85e130b, type: 3}

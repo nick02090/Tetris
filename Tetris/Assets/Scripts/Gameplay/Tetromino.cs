@@ -5,13 +5,12 @@ namespace Tetris.Gameplay
 {
     public class Tetromino : MonoBehaviour
     {
-        // TODO: Move this to game settings/manager
+        // Time that is needed for tetromino to fall down one step
         public static float fallTime = 1.0f;
 
-        // Speed at which tetromino is dragged on horizontal axis
-        public static readonly float horizontalMovementSpeed = 1.0f;
-        // Spawner of the tetrominos
-        public TetrominoSpawner tetrominoSpawner;
+        public delegate void OnDeath();
+        public OnDeath onDeathDelegate;
+
         // Grid where all the tetrominos are placed
         public TetrisGrid tetrisGrid;
         // Control system that manouvers tetromino
@@ -27,6 +26,7 @@ namespace Tetris.Gameplay
 
         private void Start()
         {
+            // Subscribe to controls
             control.moveDelegate += MoveHorizontal;
             control.falltimeDelegate += ChangeFalltime;
             control.rotateDelegate += Rotate;
@@ -44,15 +44,13 @@ namespace Tetris.Gameplay
                 if (!IsActive())
                 {
                     // Give player one more fallTime chance before total disabling
-                    if (Time.time - previousFallTime > fallTime * 2.0f)
+                    if (Time.time - previousFallTime < fallTime * 2.0f)
                     {
-                        tetrisGrid.AddToGrid(this);
-                        Reset();
-                        tetrominoSpawner.SpawnTetromino();
+                        return;
                     }
                     else
                     {
-                        return;
+                        Reset();
                     }
                 }
 
@@ -63,11 +61,18 @@ namespace Tetris.Gameplay
 
         private void Reset()
         {
-            fallTime = 1.0f;
+            // Disable this tetromino
             enabled = false;
+            // Reset member variables
+            fallTime = 1.0f;
+            // Unsubscribe from the controls
             control.moveDelegate -= MoveHorizontal;
             control.falltimeDelegate -= ChangeFalltime;
             control.rotateDelegate -= Rotate;
+            // Add this tetromino to the grid
+            tetrisGrid.AddToGrid(this);
+            // Call on death
+            onDeathDelegate();
         }
 
         public void Rotate(bool rotateLeft)
@@ -82,11 +87,21 @@ namespace Tetris.Gameplay
                 {
                     Move(Vector3.left);
                     return;
+                } 
+                else if (CheckMove(Vector3.left * 2.0f))
+                {
+                    Move(Vector3.left * 2.0f);
+                    return;
                 }
                 // Try fix by moving right
                 if (CheckMove(Vector3.right))
                 {
                     Move(Vector3.right);
+                    return;
+                }
+                else if (CheckMove(Vector3.right * 2.0f))
+                {
+                    Move(Vector3.right * 2.0f);
                     return;
                 }
                 // Undo rotation if nothing works
@@ -133,7 +148,7 @@ namespace Tetris.Gameplay
                     return false;
                 }
                 // Check if tetromino collides with another tetromino in the grid
-                if (tetrisGrid.BlockTaken(x, y))
+                if (tetrisGrid.BlockTaken(y, x))
                     return false;
             }
             return true;

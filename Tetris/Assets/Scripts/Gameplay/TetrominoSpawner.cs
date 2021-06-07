@@ -2,51 +2,69 @@ using UnityEngine;
 using Tetris.Core;
 using Tetris.Control;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Tetris.Gameplay
 {
     public class TetrominoSpawner : MonoBehaviour
     {
+        // Tetromino control that is assigned to newly spawned tetromino
         public TetrominoControl tetrominoControl;
+        // Tetris grid that newly spawned tetromino will be added to
         public TetrisGrid tetrisGrid;
+
+        // Array of all tetromino prefabs
         public Tetromino[] tetrominos;
 
+        // UI Image elements that show the upcoming tetromino sprites
         public Image[] nextTetrominoImages;
-        private Tetromino[] nextTetrominos;
+
+        // Tetrominos that will be spawned next
+        private Queue<Tetromino> nextTetrominos;
 
         private void Start()
         {
-            tetrisGrid.tetrominosParent = transform;
-            nextTetrominos = new Tetromino[nextTetrominoImages.Length];
-            for (int i = 0; i < nextTetrominoImages.Length; ++i)
+            // Initialize member variables
+            nextTetrominos = new Queue<Tetromino>(nextTetrominoImages.Length);
+            // Prepare next tetrominos
+            foreach (Image nextTetrominoImage in nextTetrominoImages)
             {
-                nextTetrominos[i] = GetRandomTetromino();
-                nextTetrominoImages[i].sprite = nextTetrominos[i].sprite;
+                Tetromino nextTetromino = GetRandomTetromino();
+                nextTetromino.onDeathDelegate += SpawnTetromino;
+                nextTetrominos.Enqueue(nextTetromino);
+                nextTetrominoImage.sprite = nextTetromino.sprite;
             }
+            // Spawn first tetromino
             SpawnTetromino();
         }
 
         public void SpawnTetromino()
         {
-            // Spawn the next tetromino
-            Tetromino nextTetromino = nextTetrominos[0];
-            nextTetromino.tetrominoSpawner = this;
-            nextTetromino.tetrisGrid = tetrisGrid;
-            nextTetromino.control = tetrominoControl;
-            ObjectSpawner.Spawn(nextTetromino.gameObject, nextTetromino.transform.position, transform);
+            // Get the next tetromino from the array
+            Tetromino nextTetromino = nextTetrominos.Dequeue();
+            // Spawn new tetromino
+            Tetromino spawnedTetromino = ObjectSpawner.Spawn(nextTetromino.gameObject, nextTetromino.transform.position, tetrisGrid.tetrominosParent).GetComponent<Tetromino>();
+            // Initialize tetromino member variables
+            spawnedTetromino.tetrisGrid = tetrisGrid;
+            spawnedTetromino.control = tetrominoControl;
+            // Subscribe this method to tetrominos death
+            spawnedTetromino.onDeathDelegate += SpawnTetromino;
 
-            // Update next tetromino arrays
+            // Update next tetromino images array
             for (int i = 0; i < nextTetrominoImages.Length - 1; ++i)
             {
                 nextTetrominoImages[i].sprite = nextTetrominoImages[i + 1].sprite;
-                nextTetrominos[i] = nextTetrominos[i + 1];
             }
             // Choose next random tetromino
-            nextTetromino = GetRandomTetromino();
-            nextTetrominos[nextTetrominos.Length - 1] = nextTetromino;
-            nextTetrominoImages[nextTetrominoImages.Length - 1].sprite = nextTetromino.sprite;
+            Tetromino newTetromino = GetRandomTetromino();
+            nextTetrominos.Enqueue(newTetromino);
+            nextTetrominoImages[nextTetrominoImages.Length - 1].sprite = newTetromino.sprite;
         }
 
+        /// <summary>
+        /// Randomly chooses next tetromino from prefab tetrominos array
+        /// </summary>
+        /// <returns></returns>
         private Tetromino GetRandomTetromino()
         {
             return tetrominos[Random.Range(0, tetrominos.Length)];
