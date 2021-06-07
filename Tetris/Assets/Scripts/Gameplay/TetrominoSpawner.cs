@@ -50,7 +50,6 @@ namespace Tetris.Gameplay
             foreach (Image nextTetrominoImage in nextTetrominoImages)
             {
                 Tetromino nextTetromino = GetRandomTetromino();
-                nextTetromino.onDeathDelegate += SpawnTetromino;
                 nextTetrominos.Enqueue(nextTetromino);
                 nextTetrominoImage.sprite = nextTetromino.sprite;
             }
@@ -61,6 +60,7 @@ namespace Tetris.Gameplay
         /// </summary>
         public void Restart()
         {
+            nextTetrominos.Clear();
             PrepareTetrominos();
             spawnNewTetrominos = true;
             SpawnTetromino();
