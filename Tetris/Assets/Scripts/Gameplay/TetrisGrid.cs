@@ -26,13 +26,7 @@ namespace Tetris.Gameplay
         {
             // Initialize grid with "false" values (empty grid)
             grid = new bool[gridWidth, gridHeight];
-            for (int row = 0; row < gridWidth; ++row)
-            {
-                for (int col = 0; col < gridHeight; ++col)
-                {
-                    grid[row, col] = false;
-                }
-            }
+            SetGridToInitialValues();
         }
 
         private void Update()
@@ -45,6 +39,33 @@ namespace Tetris.Gameplay
                 {
                     Destroy(child.gameObject);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sets all grid values to false
+        /// </summary>
+        private void SetGridToInitialValues()
+        {
+            for (int row = 0; row < gridWidth; ++row)
+            {
+                for (int col = 0; col < gridHeight; ++col)
+                {
+                    grid[row, col] = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Restarts the grid to initial values
+        /// </summary>
+        public void Restart()
+        {
+            SetGridToInitialValues();
+            // Delete tetrominos
+            foreach (Transform child in tetrominosParent)
+            {
+                Destroy(child.gameObject);
             }
         }
 

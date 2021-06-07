@@ -43,7 +43,7 @@ namespace Tetris.Gameplay
         /// <summary>
         /// Resets current score
         /// </summary>
-        public void Reset()
+        public void Restart()
         {
             Score = 0;
         }

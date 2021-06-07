@@ -50,7 +50,7 @@ namespace Tetris.Gameplay
                     }
                     else
                     {
-                        Reset();
+                        Disable();
                     }
                 }
 
@@ -59,19 +59,25 @@ namespace Tetris.Gameplay
             }
         }
 
-        private void Reset()
+        private void UnsubscribeFromControls()
         {
-            // Disable this tetromino
-            enabled = false;
-            // Reset member variables
-            fallTime = 1.0f;
             // Unsubscribe from the controls
             control.moveDelegate -= MoveHorizontal;
             control.falltimeDelegate -= ChangeFalltime;
             control.rotateDelegate -= Rotate;
-            // Add this tetromino to the grid
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromControls();
+        }
+
+        private void Disable()
+        {
+            enabled = false;
+            fallTime = 1.0f;
+            UnsubscribeFromControls();
             tetrisGrid.AddToGrid(this);
-            // Call on death
             onDeathDelegate();
         }
 

@@ -880,6 +880,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327204315}
   m_CullTransparentMesh: 1
+--- !u!114 &441149531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3614115942311491935, guid: 4f01d612bdae07443a07bbff3670c345, type: 3}
+  m_PrefabInstance: {fileID: 3614115942019203711}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ae2edde172ad34bb776023be876eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &546263785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2105,6 +2116,8 @@ MonoBehaviour:
   pausePanel: {fileID: 1484340741}
   endPanel: {fileID: 1341262694}
   tetrisGrid: {fileID: 2058819562}
+  tetrominoSpawner: {fileID: 441149531}
+  scoreManager: {fileID: 2080084904}
   leftPauseButton: {fileID: 84551265}
   rightPauseButton: {fileID: 1033900161}
   leftRotateButton: {fileID: 140752294}
@@ -2287,7 +2300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1449334850}
   m_Layer: 0
-  m_Name: GameSystem
+  m_Name: GameSystems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3519,6 +3532,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 739987997450922248, guid: eb89ca360037f7b45a773a44c364a64d, type: 3}
   m_PrefabInstance: {fileID: 739987997581572783}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2080084904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 739987997450922247, guid: eb89ca360037f7b45a773a44c364a64d, type: 3}
+  m_PrefabInstance: {fileID: 739987997581572783}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05540eec9eefdbf4e96f0d3fc3d84aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2113821460
 GameObject:
   m_ObjectHideFlags: 0

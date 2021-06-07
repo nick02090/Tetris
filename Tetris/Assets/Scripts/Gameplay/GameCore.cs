@@ -16,6 +16,10 @@ namespace Tetris.Gameplay
 
         // Grid on which the game is played
         public TetrisGrid tetrisGrid;
+        // Spawner for the tetrominos
+        public TetrominoSpawner tetrominoSpawner;
+        // Score manager
+        public ScoreManager scoreManager;
 
         // Buttons that are hidden/shown based on isLeftHanded property
         public RectTransform leftPauseButton;
@@ -34,7 +38,7 @@ namespace Tetris.Gameplay
         private void EndGame()
         {
             // Disable controls
-            DisableControls();
+            ChangeControls(false);
             // Show end panel
             endPanel.gameObject.SetActive(true);
             // Stop time
@@ -42,13 +46,13 @@ namespace Tetris.Gameplay
         }
 
         /// <summary>
-        /// Disables control buttos
+        /// Disables/Enables control buttons
         /// </summary>
-        private void DisableControls()
+        private void ChangeControls(bool enable)
         {
             foreach (Transform button in controlButtonsParent)
             {
-                button.GetComponent<Button>().enabled = false;
+                button.GetComponent<Button>().enabled = enable;
             }
         }
 
@@ -74,7 +78,7 @@ namespace Tetris.Gameplay
         public void PauseGame()
         {
             // Disable control buttons
-            DisableControls();
+            ChangeControls(false);
             // Show pause panel
             pausePanel.gameObject.SetActive(true);
             // Stop time
@@ -84,8 +88,8 @@ namespace Tetris.Gameplay
         // Called from Unity Editor (GUI)
         public void ResumeGame()
         {
-            // Disable control buttons
-            DisableControls();
+            // Enable control buttons
+            ChangeControls(true);
             // Hide pause panel
             pausePanel.gameObject.SetActive(false);
             // Resume time
@@ -95,7 +99,17 @@ namespace Tetris.Gameplay
         // Called from Unity Editor (GUI)
         public void RestartGame()
         {
-
+            // Restart game systems
+            tetrisGrid.Restart();
+            tetrominoSpawner.Restart();
+            scoreManager.Restart();
+            // Hide panels
+            endPanel.gameObject.SetActive(false);
+            pausePanel.gameObject.SetActive(false);
+            // Enable controls
+            ChangeControls(true);
+            // Resume time
+            Time.timeScale = 1f;
         }
 
         // Called from Unity Editor (GUI)

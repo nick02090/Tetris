@@ -32,13 +32,7 @@ namespace Tetris.Gameplay
             // Initialize member variables
             nextTetrominos = new Queue<Tetromino>(nextTetrominoImages.Length);
             // Prepare next tetrominos
-            foreach (Image nextTetrominoImage in nextTetrominoImages)
-            {
-                Tetromino nextTetromino = GetRandomTetromino();
-                nextTetromino.onDeathDelegate += SpawnTetromino;
-                nextTetrominos.Enqueue(nextTetromino);
-                nextTetrominoImage.sprite = nextTetromino.sprite;
-            }
+            PrepareTetrominos();
             // Spawn first tetromino
             SpawnTetromino();
         }
@@ -46,6 +40,30 @@ namespace Tetris.Gameplay
         private void StopSpawning()
         {
             spawnNewTetrominos = false;
+        }
+
+        /// <summary>
+        /// Creates new random queue of tetrominos
+        /// </summary>
+        private void PrepareTetrominos()
+        {
+            foreach (Image nextTetrominoImage in nextTetrominoImages)
+            {
+                Tetromino nextTetromino = GetRandomTetromino();
+                nextTetromino.onDeathDelegate += SpawnTetromino;
+                nextTetrominos.Enqueue(nextTetromino);
+                nextTetrominoImage.sprite = nextTetromino.sprite;
+            }
+        }
+
+        /// <summary>
+        /// Restarts spawner values
+        /// </summary>
+        public void Restart()
+        {
+            PrepareTetrominos();
+            spawnNewTetrominos = true;
+            SpawnTetromino();
         }
 
         public void SpawnTetromino()
