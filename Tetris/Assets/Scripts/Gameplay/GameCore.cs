@@ -11,6 +11,11 @@ namespace Tetris.Gameplay
         public RectTransform controlButtonsParent;
         // Overlay panel for paused game
         public RectTransform pausePanel;
+        // Overlay panel for end game
+        public RectTransform endPanel;
+
+        // Grid on which the game is played
+        public TetrisGrid tetrisGrid;
 
         // Buttons that are hidden/shown based on isLeftHanded property
         public RectTransform leftPauseButton;
@@ -20,7 +25,31 @@ namespace Tetris.Gameplay
 
         private void Start()
         {
+            // Subscribe to grids end game
+            tetrisGrid.endGameDelegate += EndGame;
+            // Setup initial button positions
             SetButtonsAccordingToHand();
+        }
+
+        private void EndGame()
+        {
+            // Disable controls
+            DisableControls();
+            // Show end panel
+            endPanel.gameObject.SetActive(true);
+            // Stop time
+            Time.timeScale = 0f;
+        }
+
+        /// <summary>
+        /// Disables control buttos
+        /// </summary>
+        private void DisableControls()
+        {
+            foreach (Transform button in controlButtonsParent)
+            {
+                button.GetComponent<Button>().enabled = false;
+            }
         }
 
         /// <summary>
@@ -45,10 +74,7 @@ namespace Tetris.Gameplay
         public void PauseGame()
         {
             // Disable control buttons
-            foreach (Transform button in controlButtonsParent)
-            {
-                button.GetComponent<Button>().enabled = false;
-            }
+            DisableControls();
             // Show pause panel
             pausePanel.gameObject.SetActive(true);
             // Stop time
@@ -59,10 +85,7 @@ namespace Tetris.Gameplay
         public void ResumeGame()
         {
             // Disable control buttons
-            foreach (Transform button in controlButtonsParent)
-            {
-                button.GetComponent<Button>().enabled = true;
-            }
+            DisableControls();
             // Hide pause panel
             pausePanel.gameObject.SetActive(false);
             // Resume time

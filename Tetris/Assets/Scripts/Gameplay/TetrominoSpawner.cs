@@ -22,8 +22,13 @@ namespace Tetris.Gameplay
         // Tetrominos that will be spawned next
         private Queue<Tetromino> nextTetrominos;
 
+        // Flag for spawning new tetrominos
+        private bool spawnNewTetrominos = true;
+
         private void Start()
         {
+            // Subscribe to end game
+            tetrisGrid.endGameDelegate += StopSpawning;
             // Initialize member variables
             nextTetrominos = new Queue<Tetromino>(nextTetrominoImages.Length);
             // Prepare next tetrominos
@@ -38,8 +43,16 @@ namespace Tetris.Gameplay
             SpawnTetromino();
         }
 
+        private void StopSpawning()
+        {
+            spawnNewTetrominos = false;
+        }
+
         public void SpawnTetromino()
         {
+            if (!spawnNewTetrominos)
+                return;
+
             // Get the next tetromino from the array
             Tetromino nextTetromino = nextTetrominos.Dequeue();
             // Spawn new tetromino

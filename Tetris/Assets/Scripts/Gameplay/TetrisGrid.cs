@@ -6,6 +6,9 @@ namespace Tetris.Gameplay
 {
     public class TetrisGrid : MonoBehaviour
     {
+        public delegate void OnEndGame();
+        public OnEndGame endGameDelegate;
+
         public const int gridWidth = 10;
         public const int gridHeight = 21;
 
@@ -72,6 +75,23 @@ namespace Tetris.Gameplay
                 // Clear the rows
                 ClearRows(clearRows);
             }
+            // Check if the game has ended
+            if (CheckEndGame())
+                endGameDelegate();
+        }
+
+        /// <summary>
+        /// Checks if the game has ended by checking the last row of grid for positive value
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckEndGame()
+        {
+            for (int column = 0; column < gridWidth; ++column)
+            {
+                if (grid[column, gridHeight - 1])
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
