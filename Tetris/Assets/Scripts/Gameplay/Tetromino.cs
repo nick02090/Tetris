@@ -16,6 +16,8 @@ namespace Tetris.Gameplay
         public TetrisGrid tetrisGrid;
         // Control system that manouvers tetromino
         public TetrominoControl control;
+        // Corresponding sprite for this tetromino
+        public Sprite sprite;
 
         // Squares that this tetromino consists of
         public Transform[] squares;

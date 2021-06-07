@@ -378,6 +378,7 @@ MonoBehaviour:
   tetrominoSpawner: {fileID: 0}
   tetrisGrid: {fileID: 0}
   control: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 10bf303cee7abbc49a7fc4623abb4a55, type: 3}
   squares:
   - {fileID: 8593644912871943634}
   - {fileID: 8593644911822307661}
