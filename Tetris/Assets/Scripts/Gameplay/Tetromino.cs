@@ -5,8 +5,8 @@ namespace Tetris.Gameplay
 {
     public class Tetromino : MonoBehaviour
     {
-        // Time that is needed for tetromino to fall down one step
-        public static float fallTime = 1.0f;
+        // Determined by level manager
+        public static float maximumFallTime = 1.0f;
 
         public delegate void OnDeath();
         public OnDeath onDeathDelegate;
@@ -23,6 +23,8 @@ namespace Tetris.Gameplay
 
         // Last time at which the tetromino has fell down one step
         private float previousFallTime;
+        // Time that is needed for tetromino to fall down one step
+        private float fallTime;
 
         private void Start()
         {
@@ -30,6 +32,8 @@ namespace Tetris.Gameplay
             control.moveDelegate += MoveHorizontal;
             control.falltimeDelegate += ChangeFalltime;
             control.rotateDelegate += Rotate;
+            // Initialize fall time
+            fallTime = maximumFallTime;
         }
 
         private void Update()
@@ -75,7 +79,6 @@ namespace Tetris.Gameplay
         private void Disable()
         {
             enabled = false;
-            fallTime = 1.0f;
             UnsubscribeFromControls();
             tetrisGrid.AddToGrid(this);
             onDeathDelegate();

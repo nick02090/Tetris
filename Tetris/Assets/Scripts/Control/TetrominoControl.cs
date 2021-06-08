@@ -33,16 +33,6 @@ namespace Tetris.Control
             rotateDelegate(false);
         }
 
-        public void DecreaseFallTime()
-        {
-            falltimeDelegate(0.1f);
-        }
-
-        public void IncreaseFallTime()
-        {
-            falltimeDelegate(1.1f);
-        }
-
         public void MinimizeFallTime()
         {
             falltimeDelegate(0.0f);

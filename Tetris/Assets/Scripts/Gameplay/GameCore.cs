@@ -20,6 +20,8 @@ namespace Tetris.Gameplay
         public TetrominoSpawner tetrominoSpawner;
         // Score manager
         public ScoreManager scoreManager;
+        // Level manager
+        public LevelManager levelManager;
 
         // Buttons that are hidden/shown based on isLeftHanded property
         public RectTransform leftPauseButton;
@@ -103,6 +105,7 @@ namespace Tetris.Gameplay
             tetrisGrid.Restart();
             tetrominoSpawner.Restart();
             scoreManager.Restart();
+            levelManager.Restart();
             // Hide panels
             endPanel.gameObject.SetActive(false);
             pausePanel.gameObject.SetActive(false);
@@ -115,7 +118,8 @@ namespace Tetris.Gameplay
         // Called from Unity Editor (GUI)
         public void QuitGame()
         {
-
+            // TODO: Remove quitting and set switching to main menu
+            Application.Quit();
         }
     }
 }

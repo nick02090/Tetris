@@ -5,6 +5,9 @@ namespace Tetris.Gameplay
 {
     public class ScoreManager : MonoBehaviour
     {
+        public delegate void OnScoreAchieved(int additionalScore);
+        public OnScoreAchieved scoreAchievedDelegate;
+
         public int Score { get; private set; }
 
         // Grid on which the game is played
@@ -37,7 +40,9 @@ namespace Tetris.Gameplay
             // NOTE: This should never happen! (sanity check)
             if (clearedRowsScore.Length == 0)
                 return;
-            Score += clearedRowsScore[Mathf.Clamp(rowsCleared - 1, 0, clearedRowsScore.Length)];
+            int additionalScore = clearedRowsScore[Mathf.Clamp(rowsCleared - 1, 0, clearedRowsScore.Length - 1)];
+            Score += additionalScore;
+            scoreAchievedDelegate(additionalScore);
         }
 
         /// <summary>
