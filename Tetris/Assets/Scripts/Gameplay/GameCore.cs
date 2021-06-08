@@ -1,10 +1,19 @@
+using Tetris.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tetris.Gameplay
 {
+    [RequireComponent(typeof(SceneLoading))]
     public class GameCore : MonoBehaviour
     {
+        // Scene number of the main menu
+        public int mainMenuScene;
+
+        // Component for scene loading
+        private SceneLoading sceneLoading;
+
+        // Setting properties
         private bool isLeftHanded = false;
         private bool isMusicON = true;
         private bool isSFXON = true;
@@ -29,6 +38,8 @@ namespace Tetris.Gameplay
         public RectTransform pausePanel;
         // Overlay panel for end game
         public RectTransform endPanel;
+        // Overlay panel for scene loading
+        public RectTransform loadingPanel;
 
         // Grid on which the game is played
         public TetrisGrid tetrisGrid;
@@ -47,6 +58,7 @@ namespace Tetris.Gameplay
 
         private void Start()
         {
+            sceneLoading = GetComponent<SceneLoading>();
             // Subscribe to grids end game
             tetrisGrid.endGameDelegate += EndGame;
             // Setup initial button positions
@@ -137,8 +149,11 @@ namespace Tetris.Gameplay
         // Called from Unity Editor (GUI)
         public void QuitGame()
         {
-            // TODO: Remove quitting and set switching to main menu
-            Application.Quit();
+            pausePanel.gameObject.SetActive(false);
+            endPanel.gameObject.SetActive(false);
+            loadingPanel.gameObject.SetActive(true);
+            sceneLoading.LoadScene(mainMenuScene);
+            Time.timeScale = 1f;
         }
 
         // Called from Unity Editor (GUI)
