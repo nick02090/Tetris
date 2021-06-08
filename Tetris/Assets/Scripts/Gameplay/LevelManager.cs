@@ -8,17 +8,21 @@ namespace Tetris.Gameplay
     {
         public int Level { get; private set; }
 
-        public AudioClip levelUpAudio;
+        [SerializeField]
+        private AudioClip levelUpAudio;
 
+        [SerializeField]
         // Manager that handles the score
-        public ScoreManager scoreManager;
+        private ScoreManager scoreManager;
 
+        [SerializeField]
         // Array which represents at what fallTime will tetrominos fall at certain level
         // e.g. levelFallTimes[0] = 1.0f means that at level 1 (0 + 1) tetrominos will fall with fallTime of 1.0f
-        public float[] levelFallTimes;
+        private float[] levelFallTimes;
 
+        [SerializeField]
         // Text that will show current level
-        public Text LevelText;
+        private Text LevelText;
 
         private void Start()
         {
@@ -31,7 +35,7 @@ namespace Tetris.Gameplay
         {
             // Level is increased once the highest possible score points multiplied with current level have been achieved
             // e.g. if for clearing 4 rows you get score of 3000 then that is the treshold for the next level
-            if (scoreManager.Score >= Level * scoreManager.clearedRowsScore[scoreManager.clearedRowsScore.Length - 1])
+            if (scoreManager.Score >= Level * scoreManager.ClearedRowsScore[scoreManager.ClearedRowsScore.Length - 1])
             {
                 GetComponent<AudioSource>().PlayOneShot(levelUpAudio);
                 Level++;

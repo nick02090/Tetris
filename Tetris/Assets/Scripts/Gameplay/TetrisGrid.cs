@@ -13,19 +13,22 @@ namespace Tetris.Gameplay
         public delegate void OnRowsCleared(int clearedRows);
         public OnRowsCleared rowsClearedDelegate;
 
+        [SerializeField]
         // SFX that will be played once the tetromino is added to the grid
-        public AudioClip dropAudio;
+        private AudioClip dropAudio;
+        [SerializeField]
         // SFX that will be played once row(s) is(are) cleared
-        public AudioClip rowClearedAudio;
+        private AudioClip rowClearedAudio;
 
         public const int gridWidth = 10;
         public const int gridHeight = 21;
 
-        public Transform tetrominosParent;
+        [SerializeField]
+        private Transform tetrominosParent;
+        public Transform TetrominosParent => tetrominosParent;
 
         // Data that represents where squares are currently placed on the grid
         // NOTE: Tetromino that is currently falling down is not shown in the grid
-        // NOTE: Grids data is inversed from the actual visual grid representation
         private bool[,] grid;
 
         private void Start()
@@ -41,7 +44,7 @@ namespace Tetris.Gameplay
             foreach (Transform child in tetrominosParent)
             {
                 // Destroy tetromino if all of his squares were destroyed
-                if (child.GetComponent<Tetromino>().squares.All(square => square == null))
+                if (child.GetComponent<Tetromino>().Squares.All(square => square == null))
                 {
                     Destroy(child.gameObject);
                 }
@@ -77,7 +80,6 @@ namespace Tetris.Gameplay
 
         /// <summary>
         /// Get grid value for given row and column.
-        /// NOTE: Grids data is inversed from the actual visual grid representation.
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
@@ -95,7 +97,7 @@ namespace Tetris.Gameplay
         {
             GetComponent<AudioSource>().PlayOneShot(dropAudio);
             // Set grid values to true where tetromino has landed
-            foreach (Transform square in tetromino.squares)
+            foreach (Transform square in tetromino.Squares)
             {
                 grid[Mathf.RoundToInt(square.transform.position.x), Mathf.RoundToInt(square.transform.position.y)] = true;
             }
@@ -212,7 +214,7 @@ namespace Tetris.Gameplay
             List<Transform> squares = new List<Transform>();
             foreach (Transform tetromino in tetrominosParent)
             {
-                squares.AddRange(tetromino.GetComponent<Tetromino>().squares.Where(square => square != null && Mathf.RoundToInt(square.position.y) == row));
+                squares.AddRange(tetromino.GetComponent<Tetromino>().Squares.Where(square => square != null && Mathf.RoundToInt(square.position.y) == row));
             }
             return squares;
         }

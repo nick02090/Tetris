@@ -8,16 +8,20 @@ namespace Tetris.Gameplay
 {
     public class TetrominoSpawner : MonoBehaviour
     {
+        [SerializeField]
         // Tetromino control that is assigned to newly spawned tetromino
         public TetrominoControl tetrominoControl;
+        [SerializeField]
         // Tetris grid that newly spawned tetromino will be added to
-        public TetrisGrid tetrisGrid;
+        private TetrisGrid tetrisGrid;
 
+        [SerializeField]
         // Array of all tetromino prefabs
-        public Tetromino[] tetrominos;
+        private Tetromino[] tetrominos;
 
+        [SerializeField]
         // UI Image elements that show the upcoming tetromino sprites
-        public Image[] nextTetrominoImages;
+        private Image[] nextTetrominoImages;
 
         // Tetrominos that will be spawned next
         private Queue<Tetromino> nextTetrominos;
@@ -51,7 +55,7 @@ namespace Tetris.Gameplay
             {
                 Tetromino nextTetromino = GetRandomTetromino();
                 nextTetrominos.Enqueue(nextTetromino);
-                nextTetrominoImage.sprite = nextTetromino.sprite;
+                nextTetrominoImage.sprite = nextTetromino.Sprite;
             }
         }
 
@@ -74,7 +78,7 @@ namespace Tetris.Gameplay
             // Get the next tetromino from the array
             Tetromino nextTetromino = nextTetrominos.Dequeue();
             // Spawn new tetromino
-            Tetromino spawnedTetromino = ObjectSpawner.Spawn(nextTetromino.gameObject, nextTetromino.transform.position, tetrisGrid.tetrominosParent).GetComponent<Tetromino>();
+            Tetromino spawnedTetromino = ObjectSpawner.Spawn(nextTetromino.gameObject, nextTetromino.transform.position, tetrisGrid.TetrominosParent).GetComponent<Tetromino>();
             // Initialize tetromino member variables
             spawnedTetromino.tetrisGrid = tetrisGrid;
             spawnedTetromino.control = tetrominoControl;
@@ -89,7 +93,7 @@ namespace Tetris.Gameplay
             // Choose next random tetromino
             Tetromino newTetromino = GetRandomTetromino();
             nextTetrominos.Enqueue(newTetromino);
-            nextTetrominoImages[nextTetrominoImages.Length - 1].sprite = newTetromino.sprite;
+            nextTetrominoImages[nextTetrominoImages.Length - 1].sprite = newTetromino.Sprite;
         }
 
         /// <summary>

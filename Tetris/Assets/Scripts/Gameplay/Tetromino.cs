@@ -15,11 +15,16 @@ namespace Tetris.Gameplay
         public TetrisGrid tetrisGrid;
         // Control system that manouvers tetromino
         public TetrominoControl control;
-        // Corresponding sprite for this tetromino
-        public Sprite sprite;
 
+        [SerializeField]
+        // Corresponding sprite for this tetromino
+        private Sprite sprite;
+        public Sprite Sprite => sprite;
+
+        [SerializeField]
         // Squares that this tetromino consists of
-        public Transform[] squares;
+        private Transform[] squares;
+        public Transform[] Squares => squares;
 
         // Last time at which the tetromino has fell down one step
         private float previousFallTime;

@@ -8,7 +8,8 @@ namespace Tetris.Gameplay
     public class GameCore : MonoBehaviour
     {
         // Scene number of the main menu
-        public int mainMenuScene;
+        [SerializeField]
+        private int mainMenuScene;
 
         // Component for scene loading
         private SceneLoading sceneLoading;
@@ -19,42 +20,62 @@ namespace Tetris.Gameplay
         private bool isSFXON = true;
 
         // Sprites for the music and SFX ON/OFF
-        public Sprite musicONSprite;
-        public Sprite musicOFFSprite;
-        public Sprite SFXONSprite;
-        public Sprite SFXOFFSprite;
+        [SerializeField]
+        private Sprite musicONSprite;
+        [SerializeField]
+        private Sprite musicOFFSprite;
+        [SerializeField]
+        private Sprite SFXONSprite;
+        [SerializeField]
+        private Sprite SFXOFFSprite;
 
         // Toggle buttons for music and SFX
-        public Button toggleMusicButton;
-        public Button toggleSFXButton;
+        [SerializeField]
+        private Button toggleMusicButton;
+        [SerializeField]
+        private Button toggleSFXButton;
 
         // Players for music and SFX
-        public AudioSource musicPlayer;
-        public AudioSource[] SFXPlayers;
+        [SerializeField]
+        private AudioSource musicPlayer;
+        [SerializeField]
+        private AudioSource[] SFXPlayers;
 
+        [SerializeField]
         // Control buttons (disabled upon pause)
-        public RectTransform controlButtonsParent;
+        private RectTransform controlButtonsParent;
+        [SerializeField]
         // Overlay panel for paused game
-        public RectTransform pausePanel;
+        private RectTransform pausePanel;
+        [SerializeField]
         // Overlay panel for end game
-        public RectTransform endPanel;
+        private RectTransform endPanel;
+        [SerializeField]
         // Overlay panel for scene loading
-        public RectTransform loadingPanel;
+        private RectTransform loadingPanel;
 
+        [SerializeField]
         // Grid on which the game is played
-        public TetrisGrid tetrisGrid;
+        private TetrisGrid tetrisGrid;
+        [SerializeField]
         // Spawner for the tetrominos
-        public TetrominoSpawner tetrominoSpawner;
+        private TetrominoSpawner tetrominoSpawner;
+        [SerializeField]
         // Score manager
-        public ScoreManager scoreManager;
+        private ScoreManager scoreManager;
+        [SerializeField]
         // Level manager
-        public LevelManager levelManager;
+        private LevelManager levelManager;
 
         // Buttons that are hidden/shown based on isLeftHanded property
-        public RectTransform leftPauseButton;
-        public RectTransform rightPauseButton;
-        public RectTransform leftRotateButton;
-        public RectTransform rightRotateButton;
+        [SerializeField]
+        private RectTransform leftPauseButton;
+        [SerializeField]
+        private RectTransform rightPauseButton;
+        [SerializeField]
+        private RectTransform leftRotateButton;
+        [SerializeField]
+        private RectTransform rightRotateButton;
 
         private void Start()
         {

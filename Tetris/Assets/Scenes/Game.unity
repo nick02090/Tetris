@@ -4891,6 +4891,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: TetrisGrid
       objectReference: {fileID: 0}
+    - target: {fileID: 4080613360317095894, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126457613759753474, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.05000019
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126457613759753474, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.05000019
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4761f84f47be7ff42aafd4a2efd52a47, type: 3}
 --- !u!1001 &3614115942019203711

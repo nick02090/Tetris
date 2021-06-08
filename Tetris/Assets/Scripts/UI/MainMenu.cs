@@ -9,14 +9,21 @@ namespace Tetris.UI
     [RequireComponent(typeof(SceneLoading))]
     public class MainMenu : MonoBehaviour
     {
+        [SerializeField]
         // Text that fades in/out at the beginning of the main menu
-        public Text tapText;
+        private Text tapText;
+
+        [SerializeField]
         // Scene number for the game
-        public int gameScene;
+        private int gameScene;
+
+        [SerializeField]
         // Menu buttons displayed on screen
-        public RectTransform menu;
+        private RectTransform menu;
+
+        [SerializeField]
         // Text for loading
-        public Text loadingText;
+        private Text loadingText;
 
         private TouchControl touchControl;
         private bool hadInitialTouch;

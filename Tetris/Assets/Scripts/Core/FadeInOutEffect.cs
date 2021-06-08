@@ -7,9 +7,12 @@ namespace Tetris.Core
     [RequireComponent(typeof(Text))]
     public class FadeInOutEffect : MonoBehaviour
     {
-        public float timeInBetween;
-        public Color textColor;
-        public bool shouldAnimate = true;
+        [SerializeField]
+        private float timeInBetween;
+        [SerializeField]
+        private Color textColor;
+        [SerializeField]
+        private bool shouldAnimate = true;
 
         private bool isAnimating = false;
 

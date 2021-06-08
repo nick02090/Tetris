@@ -10,15 +10,19 @@ namespace Tetris.Gameplay
 
         public int Score { get; private set; }
 
+        [SerializeField]
         // Grid on which the game is played
-        public TetrisGrid tetrisGrid;
+        private TetrisGrid tetrisGrid;
 
+        [SerializeField]
         // Text that will show current score number
-        public Text ScoreText;
+        private Text ScoreText;
 
+        [SerializeField]
         // Array which represents how much points number of cleared rows brings
         // e.g. clearedRows[0] = 100 means that for 1 (0 + 1) cleared row we get 100 points
-        public int[] clearedRowsScore;
+        private int[] clearedRowsScore;
+        public int[] ClearedRowsScore => clearedRowsScore;
 
         private void Start()
         {
