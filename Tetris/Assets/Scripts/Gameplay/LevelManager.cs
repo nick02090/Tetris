@@ -3,9 +3,12 @@ using UnityEngine.UI;
 
 namespace Tetris.Gameplay
 {
+    [RequireComponent(typeof(AudioSource))]
     public class LevelManager : MonoBehaviour
     {
         public int Level { get; private set; }
+
+        public AudioClip levelUpAudio;
 
         // Manager that handles the score
         public ScoreManager scoreManager;
@@ -30,6 +33,7 @@ namespace Tetris.Gameplay
             // e.g. if for clearing 4 rows you get score of 3000 then that is the treshold for the next level
             if (scoreManager.Score >= Level * scoreManager.clearedRowsScore[scoreManager.clearedRowsScore.Length - 1])
             {
+                GetComponent<AudioSource>().PlayOneShot(levelUpAudio);
                 Level++;
                 UpdateFallTime();
             }

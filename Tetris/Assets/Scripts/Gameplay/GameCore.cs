@@ -6,6 +6,22 @@ namespace Tetris.Gameplay
     public class GameCore : MonoBehaviour
     {
         private bool isLeftHanded = false;
+        private bool isMusicON = true;
+        private bool isSFXON = true;
+
+        // Sprites for the music and SFX ON/OFF
+        public Sprite musicONSprite;
+        public Sprite musicOFFSprite;
+        public Sprite SFXONSprite;
+        public Sprite SFXOFFSprite;
+
+        // Toggle buttons for music and SFX
+        public Button toggleMusicButton;
+        public Button toggleSFXButton;
+
+        // Players for music and SFX
+        public AudioSource musicPlayer;
+        public AudioSource[] SFXPlayers;
 
         // Control buttons (disabled upon pause)
         public RectTransform controlButtonsParent;
@@ -35,6 +51,9 @@ namespace Tetris.Gameplay
             tetrisGrid.endGameDelegate += EndGame;
             // Setup initial button positions
             SetButtonsAccordingToHand();
+            // Setup music and SFX sprites
+            toggleMusicButton.GetComponent<Image>().sprite = isMusicON ? musicONSprite : musicOFFSprite;
+            toggleSFXButton.GetComponent<Image>().sprite = isSFXON ? SFXONSprite : SFXOFFSprite;
         }
 
         private void EndGame()
@@ -120,6 +139,23 @@ namespace Tetris.Gameplay
         {
             // TODO: Remove quitting and set switching to main menu
             Application.Quit();
+        }
+
+        // Called from Unity Editor (GUI)
+        public void ToggleMusic()
+        {
+            isMusicON = !isMusicON;
+            toggleMusicButton.GetComponent<Image>().sprite = isMusicON ? musicONSprite : musicOFFSprite;
+            musicPlayer.mute = !isMusicON;
+        }
+
+        // Called from Unity Editor (GUI)
+        public void ToggleSFX()
+        {
+            isSFXON = !isSFXON;
+            toggleSFXButton.GetComponent<Image>().sprite = isSFXON ? SFXONSprite : SFXOFFSprite;
+            foreach (AudioSource SFXPlayer in SFXPlayers)
+                SFXPlayer.mute = !isSFXON;
         }
     }
 }

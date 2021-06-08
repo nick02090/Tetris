@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Tetris.Gameplay
 {
+    [RequireComponent(typeof(AudioSource))]
     public class TetrisGrid : MonoBehaviour
     {
         public delegate void OnEndGame();
@@ -11,6 +12,11 @@ namespace Tetris.Gameplay
 
         public delegate void OnRowsCleared(int clearedRows);
         public OnRowsCleared rowsClearedDelegate;
+
+        // SFX that will be played once the tetromino is added to the grid
+        public AudioClip dropAudio;
+        // SFX that will be played once row(s) is(are) cleared
+        public AudioClip rowClearedAudio;
 
         public const int gridWidth = 10;
         public const int gridHeight = 21;
@@ -87,6 +93,7 @@ namespace Tetris.Gameplay
         /// <param name="tetromino"></param>
         public void AddToGrid(Tetromino tetromino)
         {
+            GetComponent<AudioSource>().PlayOneShot(dropAudio);
             // Set grid values to true where tetromino has landed
             foreach (Transform square in tetromino.squares)
             {
@@ -99,6 +106,7 @@ namespace Tetris.Gameplay
                 // Clear the rows
                 ClearRows(clearRows);
                 rowsClearedDelegate(clearRows.Where(shouldClear => shouldClear).Count());
+                GetComponent<AudioSource>().PlayOneShot(rowClearedAudio);
             }
             // Check if the game has ended
             if (CheckEndGame())

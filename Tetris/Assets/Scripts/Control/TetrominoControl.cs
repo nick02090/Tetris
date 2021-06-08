@@ -2,8 +2,12 @@ using UnityEngine;
 
 namespace Tetris.Control
 {
+    [RequireComponent(typeof(AudioSource))]
     public class TetrominoControl : MonoBehaviour
     {
+        public AudioClip rotateAudio;
+        public AudioClip moveAudio;
+
         public delegate void MoveHorizontal(float movement);
         public MoveHorizontal moveDelegate;
 
@@ -16,21 +20,25 @@ namespace Tetris.Control
         public void MoveTetrominoLeft()
         {
             moveDelegate(-1.0f);
+            GetComponent<AudioSource>().PlayOneShot(moveAudio);
         }
 
         public void MoveTetrominoRight()
         {
             moveDelegate(1.0f);
+            GetComponent<AudioSource>().PlayOneShot(moveAudio);
         }
 
         public void RotateTetrominoLeft()
         {
             rotateDelegate(true);
+            GetComponent<AudioSource>().PlayOneShot(rotateAudio);
         }
 
         public void RotateTetrominoRight()
         {
             rotateDelegate(false);
+            GetComponent<AudioSource>().PlayOneShot(rotateAudio);
         }
 
         public void MinimizeFallTime()
