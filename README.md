@@ -14,7 +14,7 @@ Once installed add the project root folder (this one) via the Unity Hub and wait
 
 ## Release
 
-- Download apk file from here: https://drive.google.com/file/d/1ZDYIvDMEOzWaovraqWfy-z9A1g04-qHP/view?usp=sharing (Android only)
+- Download apk file from here: https://drive.google.com/file/d/12wtj5fIF4uYyX8-Jf8-sKljifUd_vaOh/view?usp=sharing (Android only)
   1) Enable installation of unkown apk files for your device (should be prompted during installation process (step 2))
   2) Run Tetris.apk file to start installation
   3) Play :)
